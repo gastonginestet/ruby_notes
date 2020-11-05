@@ -61,12 +61,13 @@ module RN
           else
             path="#{Dir.home}/.my_rns/#{name}"
             if (Dir.exist?(path) == true) then
-              if (prompt.yes?("Estas seguro que queres borrar todas las notas de #{path}")) then 
-                puts "Borrando todas las notas del cuaderno #{name}"
+              if (prompt.yes?("Estas seguro que queres borrar todas las notas de #{path} y el cuaderno")) then 
+                puts "Borrando el contenido y el cuaderno #{name}"
                 d = Dir.new(path)
                 d.each_child  {|file| 
                   path_file="#{path}/#{file}"
                   FileUtils.rm_f(path_file)}
+                FileUtils.remove_dir(path,true)
               end
             else
               puts "No existe el cuaderno con nombre #{name} en .my_rns/#{name}"

@@ -1,6 +1,7 @@
 module RN
   module Commands
     module Books
+      include Book
       class Create < Dry::CLI::Command
         desc 'Create a book'
 
@@ -25,10 +26,6 @@ module RN
                 Dir.mkdir("#{Dir.home}/.my_rns/#{name}")
               else
                 puts "El cuaderno con nombre #{name} en .my_rns/#{name} no está disponible"
-                if (prompt.yes?("Quiere ingresar otro nombre para el cuaderno?")) then
-                  #VER ESTO
-                  self.call(prompt.ask("Que nombre le queres poner?"))
-                end
               end
           end
         end
@@ -84,9 +81,23 @@ module RN
         ]
 
         def call(*)
-          warn "TODO: Implementar listado de los cuadernos de notas.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          path="#{Dir.home}/.my_rns"
+          if (Dir.exist?(path) == false) then
+            puts "No se detectó el cajón de notas."
+          else
+            list(path)
+          end
+        end
+
+        def list(path)
+          Dir.each_child(path) {|x| 
+            if (File.directory?("#{path}/#{x}")) then 
+              puts "#{x}"
+              list("#{path}/#{x}") 
+            end } 
         end
       end
+
 
       class Rename < Dry::CLI::Command
         desc 'Rename a book'
@@ -101,7 +112,24 @@ module RN
         ]
 
         def call(old_name:, new_name:, **)
-          warn "TODO: Implementar renombrado del cuaderno de notas con nombre '#{old_name}' para que pase a llamarse '#{new_name}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          path="#{Dir.home}/.my_rns"
+          if (Dir.exist?(path) == false) then
+            puts "No se detectó el cajón de notas."
+          else
+            path_old="#{Dir.home}/.my_rns/#{old_name}"
+            path_new="#{Dir.home}/.my_rns/#{new_name}"
+            if (Dir.exist?(path_old) == true) then
+              if (Dir.exist?(path_new) == true) then
+                puts "Ese nombre de cuaderno ya existe."
+              else
+                puts "Reenombrando cuaderno con nombre #{old_name} a #{new_name}.."
+                File.rename path_old, path_new
+                puts "Listo!"
+              end
+            else
+              puts "No existe cuaderno con nombre #{old_name}"
+            end
+          end
         end
       end
     end

@@ -25,3 +25,5 @@ necesario documentar.
 
 ## Cosas para preguntar
 * Creacion de cuaderno
+
+#### Modularizar bien 

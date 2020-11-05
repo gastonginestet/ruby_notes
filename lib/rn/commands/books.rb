@@ -12,7 +12,25 @@ module RN
         ]
 
         def call(name:, **)
-          warn "TODO: Implementar creación del cuaderno de notas con nombre '#{name}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          prompt = TTY::Prompt.new
+          if (Dir.exist?("#{Dir.home}/.my_rns") == false) then
+              puts "No se detectó el cajón de notas."
+              puts "Creando el cajon de notas de RN en la ubicación por defecto: #{Dir.home}/.my_rns"
+              Dir.mkdir("#{Dir.home}/.my_rns")
+              puts "Creando cuaderno con nombre #{name} en  .my_rns/#{name}"
+              Dir.mkdir("#{Dir.home}/.my_rns/#{name}")
+          else
+              if (Dir.exist?("#{Dir.home}/.my_rns/#{name}") == false) then
+                puts "Creando cuaderno con nombre #{name} en .my_rns/#{name}"
+                Dir.mkdir("#{Dir.home}/.my_rns/#{name}")
+              else
+                puts "El cuaderno con nombre #{name} en .my_rns/#{name} no está disponible"
+                if (prompt.yes?("Quiere ingresar otro nombre para el cuaderno?")) then
+                  #VER ESTO
+                  self.call(prompt.ask("Que nombre le queres poner?"))
+                end
+              end
+          end
         end
       end
 
@@ -25,12 +43,35 @@ module RN
         example [
           '--global  # Deletes all notes from the global book',
           '"My book" # Deletes a book named "My book" and all of its notes',
-          'Memoires  # Deletes a book named "Memoires" and all of its notes'
+          'Memories  # Deletes a book named "Memories" and all of its notes'
         ]
 
         def call(name: nil, **options)
+          prompt = TTY::Prompt.new
           global = options[:global]
-          warn "TODO: Implementar borrado del cuaderno de notas con nombre '#{name}' (global=#{global}).\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if (global) then
+            path="#{Dir.home}/.my_rns"
+            if (prompt.yes?("Estas seguro que queres borrar todas las notas de #{path}")) then 
+              puts "Borrando todas las notas del global book.."
+              d = Dir.new(path)
+              d.each_child  {|file| 
+                path_file="#{path}/#{file}"
+                FileUtils.rm_f(path_file)}
+            end
+          else
+            path="#{Dir.home}/.my_rns/#{name}"
+            if (Dir.exist?(path) == true) then
+              if (prompt.yes?("Estas seguro que queres borrar todas las notas de #{path}")) then 
+                puts "Borrando todas las notas del cuaderno #{name}"
+                d = Dir.new(path)
+                d.each_child  {|file| 
+                  path_file="#{path}/#{file}"
+                  FileUtils.rm_f(path_file)}
+              end
+            else
+              puts "No existe el cuaderno con nombre #{name} en .my_rns/#{name}"
+            end
+          end
         end
       end
 

@@ -1,7 +1,6 @@
 module RN
   module Commands
     module Books
-      include Book
       class Create < Dry::CLI::Command
         desc 'Create a book'
 
@@ -116,14 +115,14 @@ module RN
           if (Dir.exist?(path) == false) then
             puts "No se detectó el cajón de notas."
           else
-            path_old="#{Dir.home}/.my_rns/#{old_name}"
-            path_new="#{Dir.home}/.my_rns/#{new_name}"
-            if (Dir.exist?(path_old) == true) then
-              if (Dir.exist?(path_new) == true) then
+            old_path="#{Dir.home}/.my_rns/#{old_name}"
+            new_path="#{Dir.home}/.my_rns/#{new_name}"
+            if (Dir.exist?(old_path) == true) then
+              if (Dir.exist?(new_path) == true) then
                 puts "Ese nombre de cuaderno ya existe."
               else
                 puts "Reenombrando cuaderno con nombre #{old_name} a #{new_name}.."
-                File.rename path_old, path_new
+                File.rename old_path, new_path
                 puts "Listo!"
               end
             else

@@ -16,34 +16,9 @@ module RN
         def call(title:, **options)
           book = options[:book]
           if book.nil? then
-              file_path="#{Dir.home}/.my_rns/#{title}.rn"
-              if File.exist?(file_path) then
-                puts "Existe la nota con nombre #{title}"
-              else
-                puts "Creando nota con nombre #{title}"
-                puts "Abriendo editor.."
-                editor=TTY::Editor.new
-                editor.open(file_path)
-                puts "Imprimiendo contenido... con colores!"
-                puts File.read(file_path), :rainbow
-              end
+              Note.new.create_global(title)
           else
-              book_path="#{Dir.home}/.my_rns/#{book}/"
-              file_path="#{Dir.home}/.my_rns/#{book}/#{title}.rn"
-              if Dir.exist?(book_path) then
-                if File.exist?(file_path) then
-                  puts "Existe la nota con nombre #{title}"
-                else
-                  puts "Creando nota con nombre #{title}"
-                  puts "Abriendo editor.."
-                  editor=TTY::Editor.new
-                  editor.open(file_path)
-                  puts "Imprimiendo contenido... con colores!"
-                  puts File.read(file_path), :rainbow
-                end
-              else
-                puts "No existe cuaderno con nombre: '#{book}'"
-              end  
+              Note.new.create_in_book(title,book)
           end
           # "ruby bin/rn notes create 'nombre_nota' --book 'nombre_libro'"
         end
@@ -62,37 +37,12 @@ module RN
         ]
 
         def call(title:, **options)
-          prompt = TTY::Prompt.new
           book = options[:book]
           if book.nil? then
-            file_path="#{Dir.home}/.my_rns/#{title}.rn"
-            if File.exist?(file_path) then
-              if (prompt.yes?("Estas seguro que queres borrar la nota con nombre: '#{title}' en el cuaderno global?")) then 
-              puts "Borrando la nota con nombre: '#{title}' , en el cuaderno global ...."
-              FileUtils.rm_f(file_path)
-              puts "Borrada!"
-              end
-            else
-              puts "No existe la nota con nombre: '#{title}'"
-            end
+              Note.new.delete_in_global(title)
           else
-              book_path="#{Dir.home}/.my_rns/#{book}/"
-              file_path="#{Dir.home}/.my_rns/#{book}/#{title}.rn"
-              if Dir.exist?(book_path) then
-                if File.exist?(file_path) then
-                  if (prompt.yes?("Estas seguro que queres borrar la nota con nombre: '#{title}' en el cuaderno global?")) then 
-                    puts "Borrando la nota con nombre: '#{title}' , en el cuaderno: '#{book}' ...."
-                    FileUtils.rm_f(file_path)
-                    puts "Borrada!"
-                    end
-                else
-                  puts "No existe la nota con nombre: '#{title}' , en el cuaderno: '#{book}'"
-                end
-              else
-                puts "No existe cuaderno con nombre: '#{book}'"
-              end  
+              Note.new.delete_in_book(book,title)
           end
-          #warn "TODO: Implementar borrado de la nota con título '#{title}' (del libro '#{book}').\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
         end
       end
 
@@ -111,30 +61,9 @@ module RN
         def call(title:, **options)
           book = options[:book]
           if book.nil? then
-            file_path="#{Dir.home}/.my_rns/#{title}.rn"
-            if File.exist?(file_path) then
-              puts "Abriendo editor.."
-              editor=TTY::Editor.new
-              editor.open(file_path)
-              puts "Imprimiendo contenido... con colores!"
-              puts File.read(file_path), :rainbow
-            else
-              puts "No existe la nota con nombre: '#{title}'"
-            end
+              Note.new.edit_in_global(title)
           else
-              book_path="#{Dir.home}/.my_rns/#{book}/"
-              file_path="#{Dir.home}/.my_rns/#{book}/#{title}.rn"
-              if Dir.exist?(book_path) then
-                  if File.exist?(file_path) then
-                    puts "Abriendo editor.."
-                    editor=TTY::Editor.new
-                    editor.open(file_path)
-                    puts "Imprimiendo contenido... con colores!"
-                    puts File.read(file_path), :rainbow
-                  end
-              else
-                puts "No existe cuaderno con nombre: '#{book}'"
-              end  
+              Note.new.edit_in_book(book,title) 
           end
         end
       end
@@ -155,28 +84,9 @@ module RN
         def call(old_title:, new_title:, **options)
           book = options[:book]
           if book.nil? then
-            file_path="#{Dir.home}/.my_rns/#{old_title}.rn"
-            if File.exist?(file_path) then
-              new_path="#{Dir.home}/.my_rns/#{new_title}.rn"
-              puts "Reenombrando nota con nombre #{old_title} a #{new_title}.."
-              File.rename file_path, new_path
-              puts "Listo!"
-            else
-              puts "No existe la nota con nombre: '#{title}'"
-            end
+              Note.new.retitle_in_global(old_title,new_title)
           else
-              book_path="#{Dir.home}/.my_rns/#{book}/"
-              file_path="#{Dir.home}/.my_rns/#{book}/#{old_title}.rn"
-              if Dir.exist?(book_path) then
-                  if File.exist?(file_path) then
-                    new_path="#{Dir.home}/.my_rns/#{book}/#{new_title}.rn"
-                    puts "Reenombrando nota con nombre #{old_title} a #{new_title}.."
-                    File.rename file_path, new_path
-                    puts "Listo!"
-                  end
-              else
-                puts "No existe cuaderno con nombre: '#{book}'"
-              end  
+              Note.new.retitle_in_book(book,old_title,new_title)
           end
         end
       end
@@ -235,8 +145,8 @@ module RN
           if book.nil? then
             file_path="#{Dir.home}/.my_rns/#{title}.rn"
             if File.exist?(file_path) then
-              puts "Imprimiendo contenido de la nota... con colores!"
-              puts File.read(file_path), :rainbow
+              puts "Imprimiendo contenido de la nota... "
+              puts File.read(file_path)
             else
               puts "No existe la nota con nombre: '#{title}'"
             end
@@ -245,8 +155,8 @@ module RN
               file_path="#{Dir.home}/.my_rns/#{book}/#{title}.rn"
               if Dir.exist?(book_path) then
                   if File.exist?(file_path) then
-                    puts "Imprimiendo contenido... con colores!"
-                    puts File.read(file_path), :rainbow
+                    puts "Imprimiendo contenido de la nota..."
+                    puts File.read(file_path)
                   end
               else
                 puts "No existe cuaderno con nombre: '#{book}'"

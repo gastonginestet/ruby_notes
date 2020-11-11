@@ -118,6 +118,8 @@ module RN
               editor.open(file_path)
               puts "Imprimiendo contenido... con colores!"
               puts File.read(file_path), :rainbow
+            else
+              puts "No existe la nota con nombre: '#{title}'"
             end
           else
               book_path="#{Dir.home}/.my_rns/#{book}/"
@@ -159,6 +161,8 @@ module RN
               puts "Reenombrando nota con nombre #{old_title} a #{new_title}.."
               File.rename file_path, new_path
               puts "Listo!"
+            else
+              puts "No existe la nota con nombre: '#{title}'"
             end
           else
               book_path="#{Dir.home}/.my_rns/#{book}/"
@@ -233,6 +237,8 @@ module RN
             if File.exist?(file_path) then
               puts "Imprimiendo contenido de la nota... con colores!"
               puts File.read(file_path), :rainbow
+            else
+              puts "No existe la nota con nombre: '#{title}'"
             end
           else
               book_path="#{Dir.home}/.my_rns/#{book}/"

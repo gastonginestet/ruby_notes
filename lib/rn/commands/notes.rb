@@ -15,11 +15,7 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          if book.nil? then
-              Note.new.create_global(title)
-          else
-              Note.new.create_in_book(title,book)
-          end
+          Note.new.create(book,title)
           # "ruby bin/rn notes create 'nombre_nota' --book 'nombre_libro'"
         end
       end
@@ -38,11 +34,7 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          if book.nil? then
-              Note.new.delete_in_global(title)
-          else
-              Note.new.delete_in_book(book,title)
-          end
+          Note.new.delete(book,title)
         end
       end
 
@@ -60,11 +52,7 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          if book.nil? then
-              Note.new.edit_in_global(title)
-          else
-              Note.new.edit_in_book(book,title) 
-          end
+          Note.new.edit(book,title)
         end
       end
 
@@ -83,11 +71,7 @@ module RN
 
         def call(old_title:, new_title:, **options)
           book = options[:book]
-          if book.nil? then
-              Note.new.retitle_in_global(old_title,new_title)
-          else
-              Note.new.retitle_in_book(book,old_title,new_title)
-          end
+          Note.new.retitle(book,title)
         end
       end
 
@@ -107,24 +91,7 @@ module RN
         def call(**options)
           book = options[:book]
           global = options[:global]
-          if book.nil? then
-            dir_path="#{Dir.home}/.my_rns/"
-            list_files_from(dir_path)
-          else
-              dir_path="#{Dir.home}/.my_rns/#{book}/"
-              if Dir.exist?(dir_path) then
-                list_files_from(dir_path)
-              else
-                puts "No existe cuaderno con nombre: '#{book}'"
-              end  
-          end
-        end
-
-        def list_files_from(dir_path)
-          Dir.each_child(dir_path) {|file| 
-            if (File.directory?("#{dir_path}/#{file}") == false) then 
-              puts "#{file}" 
-            end } 
+          Note.new.list(book)
         end
       end
 
@@ -142,26 +109,7 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          if book.nil? then
-            file_path="#{Dir.home}/.my_rns/#{title}.rn"
-            if File.exist?(file_path) then
-              puts "Imprimiendo contenido de la nota... "
-              puts File.read(file_path)
-            else
-              puts "No existe la nota con nombre: '#{title}'"
-            end
-          else
-              book_path="#{Dir.home}/.my_rns/#{book}/"
-              file_path="#{Dir.home}/.my_rns/#{book}/#{title}.rn"
-              if Dir.exist?(book_path) then
-                  if File.exist?(file_path) then
-                    puts "Imprimiendo contenido de la nota..."
-                    puts File.read(file_path)
-                  end
-              else
-                puts "No existe cuaderno con nombre: '#{book}'"
-              end  
-          end
+          Note.new.show(title,book)
         end
       end
     end

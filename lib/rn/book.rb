@@ -1,11 +1,15 @@
 class Book
 
+  def create_global_book()
+    puts "No se detectó el cajón de notas."
+    puts "Creando el cajon de notas de RN en la ubicación por defecto: #{Dir.home}/.my_rns"
+    Dir.mkdir("#{Dir.home}/.my_rns")
+  end
+  
   def create(name)
     prompt = TTY::Prompt.new
     if (Dir.exist?("#{Dir.home}/.my_rns") == false) then
-        puts "No se detectó el cajón de notas."
-        puts "Creando el cajon de notas de RN en la ubicación por defecto: #{Dir.home}/.my_rns"
-        Dir.mkdir("#{Dir.home}/.my_rns")
+        create_global_book()
         puts "Creando cuaderno con nombre #{name} en  .my_rns/#{name}"
         Dir.mkdir("#{Dir.home}/.my_rns/#{name}")
     else
@@ -16,6 +20,18 @@ class Book
           puts "El cuaderno con nombre #{name} en .my_rns/#{name} no está disponible"
         end
     end
+end
+
+def delete(global,name)
+  if (Dir.exist?("#{Dir.home}/.my_rns") == true) then
+    if (global) then
+      Book.new.delete_global
+    else
+      Book.new.delete_book(name)
+    end
+  else
+    puts "No se detectó el cajón de notas."
+  end
 end
 
 def delete_global
@@ -47,12 +63,16 @@ def delete_book(name)
     end
 end
 
-def list(path)
-  Dir.each_child(path) {|x| 
-    if (File.directory?("#{path}/#{x}")) then 
-      puts "#{x}"
-      list("#{path}/#{x}") 
-    end } 
+def list()
+  path="#{Dir.home}/.my_rns"
+  if (Dir.exist?(path) == false) then
+    puts "No se detectó el cajón de notas."
+  else
+    Dir.each_child(path) {|x| 
+      if (File.directory?("#{path}/#{x}")) then 
+        puts "#{x}" 
+      end } 
+  end
 end
 
 def rename(old_name,new_name)

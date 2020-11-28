@@ -31,11 +31,7 @@ module RN
         def call(name: nil, **options)
             prompt = TTY::Prompt.new
             global = options[:global]
-            if (global) then
-              Book.new.delete_global
-            else
-              Book.new.delete_book(name)
-            end
+            Book.new.delete(global,name)
         end
       end
 
@@ -47,12 +43,7 @@ module RN
         ]
 
         def call(*)
-          path="#{Dir.home}/.my_rns"
-          if (Dir.exist?(path) == false) then
-            puts "No se detectó el cajón de notas."
-          else
-            Book.new.list(path)
-          end
+            Book.new.list()
         end
 
       end

@@ -87,7 +87,7 @@ herramienta y a desarrollar tu entrega.
  ```
 
   ```ruby
- ruby bin/rn notes export --all | exporta TODAS las notas
+ ruby bin/rn notes export --all | exporta TODAS las notas de todos los cuadernos incluyendo al cuaderno global
  ```
 
  ```ruby

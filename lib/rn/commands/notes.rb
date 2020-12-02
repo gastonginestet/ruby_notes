@@ -100,6 +100,8 @@ module RN
 
         argument :title, required: true, desc: 'Title of the note'
         option :book, type: :string, desc: 'Book'
+        option :global, type: :boolean, default: false, desc: 'Export only notes from the global book'
+
 
         example [
           'todo                        # Shows a note titled "todo" from the global book',
@@ -110,6 +112,27 @@ module RN
         def call(title:, **options)
           book = options[:book]
           Note.new.show(title,book)
+        end
+      end
+
+      class Export < Dry::CLI::Command
+        desc 'Export a note'
+
+        argument :title, required: false, desc: 'Title of the note'
+        option :book, type: :string, desc: 'Book'
+        option :global, type: :boolean, default: false, desc: 'Operate on the global book'
+
+        example [
+          'todo                        # Exports a note titled "todo" from the global book',
+          '--global                    # Exports notes from the global book',
+          '"New note" --book "My book" # Exports a note titled "New note" from the book "My book"',
+          'thoughts --book Memoires    # Exports a note titled "thoughts" from the book "Memoires"'
+        ]
+
+        def call(title: nil, **options)
+          global = options[:global]
+          book = options[:book]
+          Note.new.export(global,title,book)
         end
       end
     end

@@ -29,7 +29,6 @@ module RN
         ]
 
         def call(name: nil, **options)
-            prompt = TTY::Prompt.new
             global = options[:global]
             Book.new.delete(global,name)
         end

@@ -1,8 +1,11 @@
 class Book
 
   def create_global_book()
-    puts "No se detectó el cajón de notas."
-    puts "Creando el cajon de notas de RN en la ubicación por defecto: #{Dir.home}/.my_rns"
+    puts "------------------------------------------------------------"
+    puts "No se detectó el cajón de notas.",:yellow
+    puts "Creando el cajon de notas de RN en la ubicación por defecto " 
+    puts "#{Dir.home}/.my_rns",:green
+    puts "------------------------------------------------------------"
     Dir.mkdir("#{Dir.home}/.my_rns")
   end
   
@@ -17,7 +20,7 @@ class Book
           puts "Creando cuaderno con nombre #{name} en .my_rns/#{name}"
           Dir.mkdir("#{Dir.home}/.my_rns/#{name}")
         else
-          puts "El cuaderno con nombre #{name} en .my_rns/#{name} no está disponible"
+          puts "El cuaderno con nombre #{name} en .my_rns/#{name} no está disponible",:red
         end
     end
 end
@@ -30,7 +33,7 @@ def delete(global,name)
       Book.new.delete_book(name)
     end
   else
-    puts "No se detectó el cajón de notas."
+    puts "No se detectó el cajón de notas.",:red
   end
 end
 
@@ -59,14 +62,14 @@ def delete_book(name)
           FileUtils.remove_dir(path,true)
         end
     else
-      puts "No existe el cuaderno con nombre #{name} en /.my_rns/"
+      puts "No existe el cuaderno con nombre #{name} en /.my_rns/",:red
     end
 end
 
 def list()
   path="#{Dir.home}/.my_rns"
   if (Dir.exist?(path) == false) then
-    puts "No se detectó el cajón de notas."
+    puts "No se detectó el cajón de notas.",:red
   else
     Dir.each_child(path) {|x| 
       if (File.directory?("#{path}/#{x}")) then 
@@ -78,20 +81,20 @@ end
 def rename(old_name,new_name)
   path="#{Dir.home}/.my_rns"
   if (Dir.exist?(path) == false) then
-    puts "No se detectó el cajón de notas."
+    puts "No se detectó el cajón de notas.",:red
   else
     old_path="#{Dir.home}/.my_rns/#{old_name}"
     new_path="#{Dir.home}/.my_rns/#{new_name}"
     if (Dir.exist?(old_path) == true) then
       if (Dir.exist?(new_path) == true) then
-        puts "Ese nombre de cuaderno ya existe."
+        puts "Ese nombre de cuaderno ya existe.",:red
       else
         puts "Reenombrando cuaderno con nombre #{old_name} a #{new_name}.."
         File.rename old_path, new_path
-        puts "Listo!"
+        puts "Listo!",:green
       end
     else
-      puts "No existe cuaderno con nombre #{old_name}"
+      puts "No existe cuaderno con nombre #{old_name}",:red
     end
   end
 end

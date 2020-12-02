@@ -2,8 +2,11 @@ class Note
 
   def check_for_global_book()
     if (Dir.exist?("#{Dir.home}/.my_rns") == false) then
-      puts "No se detectó el cajón de notas."
-      puts "Creando el cajon de notas de RN en la ubicación por defecto: #{Dir.home}/.my_rns"
+      puts "------------------------------------------------------------"
+      puts "No se detectó el cajón de notas.",:yellow
+      puts "Creando el cajon de notas de RN en la ubicación por defecto " 
+      puts "#{Dir.home}/.my_rns",:green
+      puts "------------------------------------------------------------"
       Dir.mkdir("#{Dir.home}/.my_rns")
     end
   end
@@ -20,7 +23,7 @@ class Note
   def create_global(title)
     file_path="#{Dir.home}/.my_rns/#{title}.rn"
     if File.exist?(file_path) then
-      puts "Existe la nota con nombre #{title}"
+      puts "Ya existe la nota con nombre #{title}",:red
     else
       puts "Creando nota con nombre #{title}"
       puts "Abriendo editor.."
@@ -36,7 +39,7 @@ def create_in_book(title,book)
   file_path="#{Dir.home}/.my_rns/#{book}/#{title}.rn"
   if Dir.exist?(book_path) then
     if File.exist?(file_path) then
-      puts "Existe la nota con nombre #{title}"
+      puts "Ya existe la nota con nombre #{title}",:red
     else
       puts "Creando nota con nombre #{title}"
       puts "Abriendo editor.."
@@ -46,7 +49,7 @@ def create_in_book(title,book)
       puts File.read(file_path), :rainbow
     end
   else
-    puts "No existe cuaderno con nombre: '#{book}'"
+    puts "No existe cuaderno con nombre: '#{book}'",:red
   end 
 end
 
@@ -69,7 +72,7 @@ def delete_in_global(title)
     puts "Borrada!"
     end
   else
-    puts "No existe la nota con nombre: '#{title}'"
+    puts "No existe la nota con nombre: '#{title}'",:red
   end
 end
 
@@ -85,10 +88,10 @@ def delete_in_book(book,title)
           puts "Borrada!"
           end
       else
-        puts "No existe la nota con nombre: '#{title}' , en el cuaderno: '#{book}'"
+        puts "No existe la nota con nombre: '#{title}' , en el cuaderno: '#{book}'",:red
       end
     else
-      puts "No existe cuaderno con nombre: '#{book}'"
+      puts "No existe cuaderno con nombre: '#{book}'",:red
     end 
 end
 
@@ -110,7 +113,7 @@ def edit_in_global(title)
     puts "Imprimiendo contenido... con colores!"
     puts File.read(file_path), :rainbow
   else
-    puts "No existe la nota con nombre: '#{title}'"
+    puts "No existe la nota con nombre: '#{title}'",:red
   end
 end
 
@@ -126,7 +129,7 @@ def edit_in_book(book,title)
         puts File.read(file_path), :rainbow
       end
   else
-    puts "No existe cuaderno con nombre: '#{book}'"
+    puts "No existe cuaderno con nombre: '#{book}'",:red
   end 
 end
 
@@ -145,9 +148,9 @@ def retitle_in_global(old_title, new_title)
     new_path="#{Dir.home}/.my_rns/#{new_title}.rn"
     puts "Reenombrando nota con nombre: #{old_title} a #{new_title}.."
     File.rename file_path, new_path
-    puts "Listo!"
+    puts "Listo!",:green
   else
-    puts "No existe la nota con nombre: '#{old_title}'"
+    puts "No existe la nota con nombre: '#{old_title}'",:red
   end
 end
 
@@ -159,12 +162,12 @@ def retitle_in_book(book,old_title,new_title)
         new_path="#{Dir.home}/.my_rns/#{book}/#{new_title}.rn"
         puts "Reenombrando nota con nombre: #{old_title} a #{new_title}.."
         File.rename file_path, new_path
-        puts "Listo!"
+        puts "Listo!",:green
       else
-        puts "No existe la nota con nombre: '#{old_title}'"
+        puts "No existe la nota con nombre: '#{old_title}'",:red
       end
   else
-    puts "No existe cuaderno con nombre: '#{book}'"
+    puts "No existe cuaderno con nombre: '#{book}'",:red
   end  
 end
 
@@ -178,7 +181,7 @@ def list(book)
       if Dir.exist?(dir_path) then
         list_files_from(dir_path)
       else
-        puts "No existe cuaderno con nombre: '#{book}'"
+        puts "No existe cuaderno con nombre: '#{book}'",:red
       end  
   end
 end
@@ -199,9 +202,9 @@ def show(title,book)
       puts "------------------------------------"
       puts File.read(file_path)
       puts "------------------------------------"
-      puts " |             FIN                | "
+      puts "Ultima vez modificado: #{File.mtime(file_path)}"
     else
-      puts "No existe la nota con nombre: '#{title}'"
+      puts "No existe la nota con nombre: '#{title}'",:red
     end
   else
       book_path="#{Dir.home}/.my_rns/#{book}/"
@@ -215,8 +218,138 @@ def show(title,book)
             puts " |             FIN                | "
           end
       else
-        puts "No existe cuaderno con nombre: '#{book}'"
+        puts "No existe cuaderno con nombre: '#{book}'",:red
       end  
+  end
+end
+
+def export(global,title,book)
+  if (Dir.exist?("#{Dir.home}/.my_rns") == true) then
+    if (global) then
+      if (title.nil?) then
+        export_all_notes_from_global()
+      else
+        export_note_from_global(title)
+      end
+    else
+      if (title.nil?) then
+        export_all_notes_from_book(book)
+      else
+        if (book.nil?) then
+          export_note_from_global(title)
+        else
+          export_note_from_book(title,book)
+        end
+      end
+    end
+  else
+    puts "No se detectó el cajón de notas.",:red
+  end
+end
+
+def export_all_notes_from_global()
+  check_export_dir()
+  puts " Exportando todas las notas en formato Markdown del cuaderno global en: "
+  puts " #{Dir.home}/my_exported_notes", :blue
+  puts " ------------------------------------------------------------------------ "
+  dir_path="#{Dir.home}/.my_rns"
+  Dir.each_child(dir_path) {|file| 
+    if (File.directory?("#{dir_path}/#{file}") == false) then
+      name=File.basename("#{dir_path}/#{file}", ".*")
+      file_data = File.read("#{dir_path}/#{file}")
+      new_exported_file= "#{Dir.home}/my_exported_notes/#{name}.md"
+      File.write(new_exported_file, file_data)
+    end } 
+    bar = TTY::ProgressBar.new("exportando [:bar]", total: 30)
+    30.times do
+      sleep(0.1)
+      bar.advance(1)
+    end
+    puts "Listo!",:green
+end
+
+def export_note_from_global(title)
+  check_export_dir()
+  dir_path="#{Dir.home}/.my_rns"
+  file_path="#{dir_path}/#{title}.rn"
+  if File.exist?(file_path) then
+    puts " Exportando la nota '#{title}' en formato Markdown del cuaderno global en: "
+    puts " #{Dir.home}/my_exported_notes", :blue
+    puts "  ------------------------------------------------------------------------- "
+    file_data = File.read("#{file_path}")
+    new_exported_file= "#{Dir.home}/my_exported_notes/#{title}.md"
+    File.write(new_exported_file, file_data) 
+    bar = TTY::ProgressBar.new("exportando [:bar]", total: 10)
+    10.times do
+      sleep(0.1)
+      bar.advance(1)
+    end
+    puts "Listo!",:green
+  else
+    puts "No existe la nota con nombre: '#{title}' en el cuaderno global.",:red
+  end
+end
+
+def export_all_notes_from_book(book)
+  check_export_dir()
+  dir_path="#{Dir.home}/.my_rns/#{book}"
+  if Dir.exist?(dir_path) then
+    puts " Exportando todas las notas en formato Markdown del cuaderno '#{book}' en: "
+    puts " #{Dir.home}/my_exported_notes", :blue
+    puts " ------------------------------------------------------------------------ "
+    Dir.each_child(dir_path) {|file| 
+      if (File.directory?("#{dir_path}/#{file}") == false) then
+        name=File.basename("#{dir_path}/#{file}", ".*")
+        file_data = File.read("#{dir_path}/#{file}")
+        new_exported_file= "#{Dir.home}/my_exported_notes/#{name}.md"
+        File.write(new_exported_file, file_data)
+      end } 
+      bar = TTY::ProgressBar.new("exportando [:bar]", total: 30)
+      30.times do
+        sleep(0.1)
+        bar.advance(1)
+      end
+      puts "Listo!",:green
+  else
+    puts "No existe cuaderno con nombre: '#{book}'",:red
+  end
+end
+
+def export_note_from_book(title,book)
+  check_export_dir()
+  book_path="#{Dir.home}/.my_rns/#{book}"
+  file_path="#{book_path}/#{title}.rn"
+  if Dir.exist?(book_path) then
+    if File.exist?(file_path) then
+      puts " Exportando la nota '#{title}' en formato Markdown del cuaderno '#{book}' , en: "
+      puts " #{Dir.home}/my_exported_notes", :blue
+      puts "  ------------------------------------------------------------------------- "
+      file_data = File.read("#{file_path}")
+      new_exported_file= "#{Dir.home}/my_exported_notes/#{title}.md"
+      File.write(new_exported_file, file_data) 
+      bar = TTY::ProgressBar.new("exportando [:bar]", total: 10)
+      10.times do
+        sleep(0.1)
+        bar.advance(1)
+      end
+      puts "Listo!",:green
+    else
+      puts "No existe la nota con nombre: '#{title}' en '#{book}'",:red
+    end
+  else
+    puts "No existe cuaderno con nombre: '#{book}'",:red
+  end
+end
+
+def check_export_dir()
+  if (Dir.exist?("#{Dir.home}/my_exported_notes") == false) then
+    puts "--------------------------------------------------"
+    puts "No se detectó carpeta destino de exportación",:yellow
+    puts "Creando el directorio en la ubicación por defecto"
+    puts "#{Dir.home}/my_exported_notes",:green
+    puts "--------------------------------------------------"
+    puts " "
+    Dir.mkdir("#{Dir.home}/my_exported_notes")
   end
 end
 

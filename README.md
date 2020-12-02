@@ -69,23 +69,23 @@ Una vez que la instalación de las dependencias sea exitosa (esto deberías hace
 cuando estés comenzando con la utilización del proyecto), podés comenzar a probar la
 herramienta y a desarrollar tu entrega.
 
+--------------------
+## Update 2/12/2020
 
-> Update 2/12/2020
+ *  Se usó "tty-progressbar" con fines estéticos. (Instalar dependencias con bundle)
+ *  Se agregó nueva funcionalidad a las notas, ahora se pueden exportar notas, ejemplos:
+ ```ruby
+ ruby bin/rn notes export --book libro | exporta todas las notas del cuaderno "libro"
+ ```
 
-> *  Se usó "tty-progressbar" con fines estéticos. (Instalar dependencias con bundle)
-> *  Se agregó nueva funcionalidad a las notas, ahora se pueden exportar notas, ejemplos:
-> ```ruby
-> ruby bin/rn notes export --book libro | exporta todas las notas del cuaderno "libro"
-> ```
+ ```ruby
+ ruby bin/rn notes export nota --book libro | exporta la nota "nota" del cuaderno "libro"
+ ```
 
-> ```ruby
-> ruby bin/rn notes export nota --book libro | exporta la nota "nota" del cuaderno "libro"
-> ```
+ ```ruby
+ ruby bin/rn notes export --global | exporta todas las notas del cuaderno global
+ ```
 
-> ```ruby
-> ruby bin/rn notes export --global | exporta todas las notas del cuaderno global
-> ```
-
-> ```ruby
-> ruby bin/rn notes export nota | exporta la nota "nota" del cuaderno global
-> ```
+ ```ruby
+ ruby bin/rn notes export nota | exporta la nota "nota" del cuaderno global
+ ```

@@ -86,6 +86,10 @@ herramienta y a desarrollar tu entrega.
  ruby bin/rn notes export --global | exporta todas las notas del cuaderno global
  ```
 
+  ```ruby
+ ruby bin/rn notes export --all | exporta TODAS las notas
+ ```
+
  ```ruby
  ruby bin/rn notes export nota | exporta la nota "nota" del cuaderno global
  ```

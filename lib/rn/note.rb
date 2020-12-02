@@ -223,22 +223,36 @@ def show(title,book)
   end
 end
 
-def export(global,title,book)
+def export_files_from(dir_path)
+  Dir.each_child(dir_path) {|file| 
+    if (File.directory?("#{dir_path}/#{file}") == false) then 
+      name=File.basename("#{dir_path}/#{file}", ".*")
+      file_data = File.read("#{dir_path}/#{file}")
+      new_exported_file= "#{Dir.home}/my_exported_notes/#{name}.md"
+      File.write(new_exported_file, file_data) 
+    end } 
+end
+
+def export(all,global,title,book)
   if (Dir.exist?("#{Dir.home}/.my_rns") == true) then
-    if (global) then
-      if (title.nil?) then
-        export_all_notes_from_global()
-      else
-        export_note_from_global(title)
-      end
+    if (all) then
+      export_all_notes()
     else
-      if (title.nil?) then
-        export_all_notes_from_book(book)
-      else
-        if (book.nil?) then
-          export_note_from_global(title)
+      if (global) then
+        if (title.nil?) then
+          export_all_notes_from_global()
         else
-          export_note_from_book(title,book)
+          export_note_from_global(title)
+        end
+      else
+        if (title.nil?) then
+          export_all_notes_from_book(book)
+        else
+          if (book.nil?) then
+            export_note_from_global(title)
+          else
+            export_note_from_book(title,book)
+          end
         end
       end
     end
@@ -262,6 +276,30 @@ def export_all_notes_from_global()
     end } 
     bar = TTY::ProgressBar.new("exportando [:bar]", total: 30)
     30.times do
+      sleep(0.1)
+      bar.advance(1)
+    end
+    puts "Listo!",:green
+end
+
+def export_all_notes()
+  check_export_dir()
+  puts " Exportando todas las notas en formato Markdown "
+  puts " esto puede demorar un poco.. "
+  puts "destino: #{Dir.home}/my_exported_notes", :blue
+  puts " ------------------------------------------------------------------------ "
+  dir_path="#{Dir.home}/.my_rns"
+  Dir.each_child(dir_path) {|file| 
+    if (File.directory?("#{dir_path}/#{file}") == false) then
+      name=File.basename("#{dir_path}/#{file}", ".*")
+      file_data = File.read("#{dir_path}/#{file}")
+      new_exported_file= "#{Dir.home}/my_exported_notes/#{name}.md"
+      File.write(new_exported_file, file_data)
+    else
+      export_files_from("#{dir_path}/#{file}")
+    end } 
+    bar = TTY::ProgressBar.new("exportando [:bar]", total: 35)
+    35.times do
       sleep(0.1)
       bar.advance(1)
     end
@@ -345,8 +383,10 @@ def check_export_dir()
   if (Dir.exist?("#{Dir.home}/my_exported_notes") == false) then
     puts "--------------------------------------------------"
     puts "No se detectó carpeta destino de exportación",:yellow
+    sleep(1)
     puts "Creando el directorio en la ubicación por defecto"
     puts "#{Dir.home}/my_exported_notes",:green
+    sleep(1)
     puts "--------------------------------------------------"
     puts " "
     Dir.mkdir("#{Dir.home}/my_exported_notes")

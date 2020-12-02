@@ -121,9 +121,12 @@ module RN
         argument :title, required: false, desc: 'Title of the note'
         option :book, type: :string, desc: 'Book'
         option :global, type: :boolean, default: false, desc: 'Operate on the global book'
+        option :all, type: :boolean, default: false, desc: 'Operate on all books'
+
 
         example [
           'todo                        # Exports a note titled "todo" from the global book',
+          '--all                       # Exports all the notes from all books',
           '--global                    # Exports notes from the global book',
           '"New note" --book "My book" # Exports a note titled "New note" from the book "My book"',
           'thoughts --book Memoires    # Exports a note titled "thoughts" from the book "Memoires"'
@@ -131,8 +134,9 @@ module RN
 
         def call(title: nil, **options)
           global = options[:global]
+          all = options[:all]
           book = options[:book]
-          Note.new.export(global,title,book)
+          Note.new.export(all,global,title,book)
         end
       end
     end

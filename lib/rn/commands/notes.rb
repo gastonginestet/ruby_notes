@@ -15,7 +15,7 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          Note.new.create(book,title)
+          Note.new.create(book, title)
           # "ruby bin/rn notes create 'nombre_nota' --book 'nombre_libro'"
         end
       end
@@ -34,7 +34,7 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          Note.new.delete(book,title)
+          Note.new.delete(book, title)
         end
       end
 
@@ -52,7 +52,7 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          Note.new.edit(book,title)
+          Note.new.edit(book, title)
         end
       end
 
@@ -71,7 +71,7 @@ module RN
 
         def call(old_title:, new_title:, **options)
           book = options[:book]
-          Note.new.retitle(book,title)
+          Note.new.retitle(book, title)
         end
       end
 
@@ -102,7 +102,6 @@ module RN
         option :book, type: :string, desc: 'Book'
         option :global, type: :boolean, default: false, desc: 'Export only notes from the global book'
 
-
         example [
           'todo                        # Shows a note titled "todo" from the global book',
           '"New note" --book "My book" # Shows a note titled "New note" from the book "My book"',
@@ -111,7 +110,7 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          Note.new.show(title,book)
+          Note.new.show(title, book)
         end
       end
 
@@ -122,7 +121,6 @@ module RN
         option :book, type: :string, desc: 'Book'
         option :global, type: :boolean, default: false, desc: 'Operate on the global book'
         option :all, type: :boolean, default: false, desc: 'Operate on all books'
-
 
         example [
           'todo                        # Exports a note titled "todo" from the global book',
@@ -136,7 +134,7 @@ module RN
           global = options[:global]
           all = options[:all]
           book = options[:book]
-          Note.new.export(all,global,title,book)
+          Note.new.export(all, global, title, book)
         end
       end
     end

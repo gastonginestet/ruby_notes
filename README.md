@@ -72,7 +72,7 @@ herramienta y a desarrollar tu entrega.
 --------------------
 ## Update 2/12/2020
 
- *  Se usó "tty-progressbar" con fines estéticos. (Instalar dependencias con bundle)
+ *  Se usó "tty-progressbar" con fines estéticos. (Instalar dependencias con `bundle`)
  *  Se agregó nueva funcionalidad a las notas, ahora se pueden exportar notas, ejemplos:
  ```ruby
  ruby bin/rn notes export --book libro | exporta todas las notas del cuaderno "libro"
@@ -93,3 +93,8 @@ herramienta y a desarrollar tu entrega.
  ```ruby
  ruby bin/rn notes export nota | exporta la nota "nota" del cuaderno global
  ```
+
+--------------------
+## Update 20/2/2021
+
+ *  Se instaló `commonmarker` para poder hacer las exportaciones de las notas al formato HTML

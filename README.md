@@ -37,3 +37,4 @@ $ bundle install
 
  * Se instaló Rails en el repo y todo lo anterior fue a parar a la rama `CLI-App`
  * Se decidió utilizar el Framework CSS Tailwind para el diseño de las vistas.
+ * Se eligió utilizar para el manejo de sesiones, la gema [Sorcery](https://github.com/Sorcery/sorcery)

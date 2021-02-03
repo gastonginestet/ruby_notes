@@ -1,0 +1,29 @@
+<header class="border-b md:flex md:items-center md:justify-between p-4 pb-0 shadow-lg md:pb-4 bg-gray-200">
+  
+  <!-- Logo text or image -->
+  <div width="65.36px" height="16.78px" class="flex items-center justify-between mb-4 md:mb-0">
+        <%= link_to image_tag("favicon.png", class: "h-16 w-auto"), pages_path %> 
+  </div>
+  <!-- END Logo text or image -->
+  <!-- Global navigation -->
+  <nav>
+    <ul class="list-reset md:flex md:items-center">
+      <li class="md:ml-4 rounded-full py-3 px-6">
+        <a>
+          <%= link_to "Iniciar sesión", 
+            :login, 
+            :class => "border-t block no-underline hover:underline py-2 text-sm text-grey-darkest font-medium text-gray-500 uppercase tracking-wider hover:text-black md:border-none md:p-0" %> 
+          </a>
+      </li>
+      <li class="md:ml-4 rounded-full py-3 px-6">
+        <a>
+          <%= link_to "Crear una cuenta", 
+              new_user_path , 
+            :class => "border-t block no-underline hover:underline py-2 text-sm text-grey-darkest font-medium text-gray-500 uppercase tracking-wider hover:text-black md:border-none md:p-0" %> 
+          </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- END Global navigation -->
+
+</header>

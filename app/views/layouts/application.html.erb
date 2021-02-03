@@ -14,9 +14,9 @@
   <body>
     <div id="nav">
     <% if current_user %>
-      <%= link_to "Edit Profile", edit_user_path(current_user.id) %>
-      <%= link_to "Logout", :logout, method: :post %>
+        <%= render "layouts/navbar"%>
     <% else %>
+        <%= render "layouts/navbar_without_login"%>
     <% end %>
   </div>
   <div>

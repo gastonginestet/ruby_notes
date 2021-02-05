@@ -1,10 +1,10 @@
-<%= form_for @user do |f| %>
+<%= form_with model: user do |f| %>
 <div class="bg-white shadow rounded-lg p-6">
     <div class="grid lg:grid-cols-1 gap-6">
       <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
         <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
           <p>
-            <label for="email" class="bg-white text-gray-600 px-1" >Email *</label>
+            <%= f.label "#{:email} *" , class: "bg-white text-gray-600 px-1" %>
           </p>
         </div>
         <p>
@@ -14,7 +14,7 @@
       <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
         <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
           <p>
-            <label for="username" class="bg-white text-gray-600 px-1">Username *</label>
+            <%= f.label "#{:username} *" , class: "bg-white text-gray-600 px-1" %>
           </p>
         </div>
         <p>
@@ -24,7 +24,7 @@
       <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
         <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
           <p>
-            <label for="password" class="bg-white text-gray-600 px-1" >Password *</label>
+            <%= f.label "#{:password} *" , class: "bg-white text-gray-600 px-1" %>
           </p>
         </div>
         <p>
@@ -34,7 +34,7 @@
       <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
         <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
           <p>
-            <label for="password_confirmation" class="bg-white text-gray-600 px-1" >Password Confirmation *</label>
+            <%= f.label "#{:password_confirmation} *" , class: "bg-white text-gray-600 px-1" %>
           </p>
         </div>
         <p>

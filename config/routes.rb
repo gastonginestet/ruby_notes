@@ -3,8 +3,12 @@ Rails.application.routes.draw do
 
   # Sessions
   resources :sessions, only: %i[new create destroy]
-  # Users
-  resources :users
+  # Users , books and notes
+  resources :users do
+    resources :books do
+      resources :notes
+    end
+  end
   # Pages
   resources :pages
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
   before_action :find_user, only: %i[show edit update destroy]
   skip_before_action :require_login, only: %i[new create]
-  # index para Developer
+  # index para User
 
   def index
     @users = User.all
   end
-  # acciones para la creacion de un Developer
+  # acciones para la creacion de un User
 
   def new
     @user = User.new
@@ -23,10 +23,10 @@ class UsersController < ApplicationController
 
   def edit; end
 
-  # accion para la vista de un Developer
+  # accion para la vista de un User
 
   def show; end
-  # acciones para la edicion de un Developer
+  # acciones para la edicion de un User
 
   def update
     if @user.update(user_params)
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # accion para el borrado de un Developer
+  # accion para el borrado de un User
   def destroy
     @user.destroy
     redirect_to users_path

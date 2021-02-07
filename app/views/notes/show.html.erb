@@ -1,6 +1,39 @@
-<p id="notice"><%= notice %></p>
-
-<p> Todas las notas acá </p>
-
-
-<%= link_to 'Volver', user_book_notes_path %>
+<div class="bg-white shadow rounded-lg p-6">
+    <div class="grid lg:grid-cols-1 gap-6">
+      <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
+        <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
+          <p class="bg-white text-gray-600 px-1">
+          Title
+          </p>
+        </div>
+        <p class="py-1 px-1 outline-none block h-full w-full">
+          <%= @note.title %>
+        </p>
+      </div>
+      <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
+        <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
+          <p class="bg-white text-gray-600 px-1">
+          Body
+          </p>
+        </div>
+        <textarea disabled id='body-content'>
+          <%= @note.body  %>
+        </textarea>
+      </div>
+    </div>
+    <div class="border-t mt-6 pt-3">
+      <button class="   md:mx-auto px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <%= link_to 'Volver', user_book_notes_path %>
+      </button>
+    </div>
+  </div>
+<script>
+  CodeMirror.fromTextArea(document.getElementById("body-content"), {
+    theme: "eclipse",
+    mode: "htmlmixed",
+    lineNumbers: true,
+    gutter: true,
+    lineWrapping: true,
+    readOnly: true
+  });
+</script>

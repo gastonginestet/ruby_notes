@@ -3,7 +3,8 @@ class NotesController < ApplicationController
   # index para Note
 
   def index
-    @notes = Note.all
+    @notes = Note.where(book_id: params.require(:book_id))
+
   end
   # acciones para la creacion de un Note
 

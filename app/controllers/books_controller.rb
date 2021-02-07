@@ -3,7 +3,7 @@ class BooksController < ApplicationController
   # index para Book
 
   def index
-    @books = Book.all
+    @books = Book.where(user_id: current_user.id)
   end
   # acciones para la creacion de un Book
 

@@ -18,7 +18,7 @@
           </p>
         </div>
         <p>
-          <%= f.text_field :body , class: "py-1 px-1 outline-none block h-full w-full"  %>
+          <%= f.text_area :body , id:'body-content'  %>
         </p>
       </div>
     </div>
@@ -32,3 +32,13 @@
     </div>
   </div>
 <% end %>
+
+<script>
+  CodeMirror.fromTextArea(document.getElementById("body-content"), {
+    theme: "eclipse",
+    mode: "htmlmixed",
+    lineNumbers: true,
+    gutter: true,
+    lineWrapping: true
+  });
+</script>

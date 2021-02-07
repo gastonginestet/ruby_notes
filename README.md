@@ -24,15 +24,6 @@ $ bundle install
 * Node v15.7.0
 
 --------------------
-## Update 2/12/2020
-
- *  Se usó "tty-progressbar" con fines estéticos. (Instalar dependencias con `bundle`)
- *  Se agregó nueva funcionalidad a las notas, ahora se pueden exportar notas.
---------------------
-## Update 20/2/2021
-
- *  Se instaló `commonmarker` para poder hacer las exportaciones de las notas al formato HTML
---------------------
  ## Update 7/3/2021
 
  * Se instaló Rails en el repo y todo lo anterior fue a parar a la rama `CLI-App`

@@ -48,3 +48,11 @@ gem "codemirror-rails"
 
 gem 'commonmarker'
 
+# Testing
+group :test do
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'rails-controller-testing'
+  gem 'rspec-rails'
+  gem 'shoulda-matchers', '4.0.0.rc1'
+end

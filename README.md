@@ -30,3 +30,7 @@ $ bundle install
  * Se decidió utilizar el Framework CSS Tailwind para el diseño de las vistas.
  * Se eligió utilizar para el manejo de sesiones, la gema [Sorcery](https://github.com/Sorcery/sorcery)
  * Se agregó como gema y paquetes para `yarn` , [Codemirror](https://codemirror.net/) para la visualización de las notas.
+ * Se agregaron las siguientes gemas para el testeo de los modelos y controladores: [rspec-rails](https://github.com/rspec/rspec-rails) , 
+ [Factory-Bot](https://github.com/thoughtbot/factory_bot_rails) , 
+[Faker](https://github.com/faker-ruby/faker) , 
+[Shoulda-matchers](https://github.com/thoughtbot/shoulda-matchers) . 

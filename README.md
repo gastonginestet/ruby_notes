@@ -33,8 +33,9 @@ $ bundle install
 
  *  Se instaló `commonmarker` para poder hacer las exportaciones de las notas al formato HTML
 --------------------
- ## Update 1/3/2021
+ ## Update 7/3/2021
 
  * Se instaló Rails en el repo y todo lo anterior fue a parar a la rama `CLI-App`
  * Se decidió utilizar el Framework CSS Tailwind para el diseño de las vistas.
  * Se eligió utilizar para el manejo de sesiones, la gema [Sorcery](https://github.com/Sorcery/sorcery)
+ * Se agregó como gema y paquetes para `yarn` , [Codemirror](https://codemirror.net/) para la visualización de las notas.

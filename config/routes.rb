@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   # Users , books and notes
   resources :users do
     resources :books do
-      resources :notes
+      resources :notes do
+        member do
+          get :export
+        end
+      end
     end
   end
   # Pages

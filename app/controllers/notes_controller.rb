@@ -3,6 +3,7 @@ class NotesController < ApplicationController
   # index para Note
 
   def index
+    @book = Book.find(params.require(:book_id))
     @notes = Note.where(book_id: params.require(:book_id))
   end
   # acciones para la creacion de un Note
@@ -52,8 +53,7 @@ class NotesController < ApplicationController
   private
 
   def note_params
-    params.require(:note).permit(current_user, :title, :body)
-    redirect_to(%i[user book notes], notice: 'Note was successfully deleted')
+    params.require(:note).permit(current_user,:book_id, :title, :body)
   end
 
   def find_note

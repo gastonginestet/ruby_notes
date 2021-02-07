@@ -27,8 +27,8 @@
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <%= link_to "Editar", edit_note_path(note), :class  => "text-indigo-600 hover:text-indigo-900" %>
-                <%= link_to "Eliminar", note, method: :delete, data: { confirm: "Desea eliminar este cuaderno? Mira que se va a borrar todo su contenido."} , :class => "text-indigo-600 hover:text-indigo-900" %>
+                <%= link_to "Editar", edit_user_book_note_path(current_user,note.book_id,note), :class  => "text-indigo-600 hover:text-indigo-900" %>
+                <%= link_to "Eliminar",user_book_note_path(current_user,note.book_id, note), method: :delete, data: { confirm: "Desea eliminar esta nota?"} , :class => "text-indigo-600 hover:text-indigo-900" %>
               </td>
             </tr>
           <% end %>
@@ -38,6 +38,6 @@
     </div>
   </div>
    <button class="  md:mx-auto px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    <%= link_to "Agregar nuevo cuadenro ", new_book_path %>
+    <%= link_to "Agregar nueva nota ", new_user_book_note_path %>
    </button>
 </div>

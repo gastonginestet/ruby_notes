@@ -1,0 +1,34 @@
+<%= form_for [:user, :book , @note] do |f| %>
+<div class="bg-white shadow rounded-lg p-6">
+    <div class="grid lg:grid-cols-1 gap-6">
+      <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
+        <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
+          <p>
+            <%= f.label "#{:title} *" , class: "bg-white text-gray-600 px-1" %>
+          </p>
+        </div>
+        <p>
+          <%= f.text_field :title , class: "py-1 px-1 outline-none block h-full w-full"  %>
+        </p>
+      </div>
+      <div class="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
+        <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
+          <p>
+            <%= f.label "#{:body} *" , class: "bg-white text-gray-600 px-1" %>
+          </p>
+        </div>
+        <p>
+          <%= f.text_field :body , class: "py-1 px-1 outline-none block h-full w-full"  %>
+        </p>
+      </div>
+    </div>
+    <div class="border-t mt-6 pt-3">
+      <button type="submit" value="<% f.submit %>"  class="  md:mx-auto px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+         Confirmar
+      </button>
+      <button class="   md:mx-auto px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <%= link_to 'Volver', user_book_notes_path %>
+      </button>
+    </div>
+  </div>
+<% end %>

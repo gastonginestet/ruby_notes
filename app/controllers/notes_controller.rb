@@ -13,8 +13,11 @@ class NotesController < ApplicationController
 
   def create
     @note = Note.new(note_params)
+    book_id = params.require(:book_id)
+    @note.user = User.find(current_user.id)
+    @note.book = Book.find(book_id)
     if @note.save
-      redirect_to(:notes, notice: 'Note was successfully created')
+      redirect_to([:user ,:book , :notes], notice: 'Note was successfully created')
     else
       render :new
     end
@@ -29,7 +32,7 @@ class NotesController < ApplicationController
 
   def update
     if @note.update(note_params)
-      redirect_to @note
+      redirect_to([:user ,:book , :notes], notice: 'Note was successfully updated')
     else
       render :edit
     end
@@ -38,13 +41,13 @@ class NotesController < ApplicationController
   # accion para el borrado de un Note
   def destroy
     @note.destroy
-    redirect_to notes_path
+    redirect_to([:user ,:book , :notes], notice: 'Note was successfully deleted')
   end
 
   private
 
   def note_params
-    params.require(:note).permit(:title, :body)
+    params.require(:note).permit(current_user ,:title , :body)
   end
 
   def find_note

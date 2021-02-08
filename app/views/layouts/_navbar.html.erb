@@ -3,6 +3,7 @@
   <!-- Logo text or image -->
   <div width="65.36px" height="16.78px" class="flex items-center justify-between mb-4 md:mb-0">
         <%= link_to image_tag("favicon.png", class: "h-16 w-auto"), pages_path %> 
+        <p class="border-t block no-underline py-2 text-sm text-grey-darkest font-medium text-gray-500 tracking-wider hover:text-black md:border-none md:p-0">Bienvenido, <%= current_user.username %>. </p>
   </div>
   <!-- END Logo text or image -->
   <!-- Global navigation -->

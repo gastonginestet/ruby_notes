@@ -38,6 +38,7 @@ class UsersController < ApplicationController
 
   # accion para el borrado de un User
   def destroy
+    authorize @user
     @user.destroy
     redirect_to users_path
   end

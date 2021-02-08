@@ -28,8 +28,7 @@ class NotesController < ApplicationController
 
   # accion para la vista de un Note
 
-  def show
-  end
+  def show; end
 
   def export
     @note.body = CommonMarker.render_html(@note.body, :DEFAULT)
@@ -53,7 +52,7 @@ class NotesController < ApplicationController
   private
 
   def note_params
-    params.require(:note).permit(current_user,:book_id, :title, :body)
+    params.require(:note).permit(current_user, :book_id, :title, :body)
   end
 
   def find_note

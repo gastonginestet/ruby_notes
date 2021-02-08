@@ -3,7 +3,15 @@ class BooksController < ApplicationController
   # index para Book
 
   def index
+    @user = User.find(params.require(:user_id))
     @books = Book.where(user_id: current_user.id)
+    if @books.empty? 
+      @book = Book.new()
+      @book.user= User.find(params.require(:user_id))
+      authorize @book
+    else
+      authorize @books.first
+    end
   end
   # acciones para la creacion de un Book
 
@@ -14,8 +22,9 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
     @book.user = User.find(current_user.id)
+    authorize @book
     if @book.save
-      redirect_to([:user, :books], notice: 'Book was successfully created')
+      redirect_to(%i[user books], notice: 'Book was successfully created')
     else
       render :new
     end
@@ -30,7 +39,8 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      redirect_to([:user, :books], notice: 'Book was successfully updated')
+      byebug
+      redirect_to(%i[user books], notice: 'Book was successfully updated')
     else
       render :edit
     end
@@ -38,8 +48,9 @@ class BooksController < ApplicationController
 
   # accion para el borrado de un Book
   def destroy
+    authorize @book
     @book.destroy
-    redirect_to([:user, :books], notice: 'Book was successfully deleted')
+    redirect_to(%i[user books], notice: 'Book was successfully deleted')
   end
 
   private

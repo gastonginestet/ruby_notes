@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_05_034445) do
+ActiveRecord::Schema.define(version: 2021_02_07_235734) do
 
   create_table "books", force: :cascade do |t|
     t.string "title", null: false
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2021_02_05_034445) do
     t.string "salt"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "role"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end

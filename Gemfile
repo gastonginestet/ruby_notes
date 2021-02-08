@@ -42,10 +42,13 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+# Tailwind CSS Framework
 gem "tailwindcss-rails", "~> 0.3.1"
 
+# Codemirror
 gem "codemirror-rails"
 
+# Commonmarker
 gem 'commonmarker'
 
 # Testing
@@ -56,3 +59,6 @@ group :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers', '4.0.0.rc1'
 end
+
+# Pundit
+gem "pundit"

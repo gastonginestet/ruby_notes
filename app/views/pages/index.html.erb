@@ -11,9 +11,15 @@
                 
                 <div class="mt-8">
                      <a>
+                     <%if current_user %>
                         <%= link_to "Pruebe ahora! 🚀", 
-                                        users_path, 
+                                        new_user_book_note_path(current_user,current_user.books.first), 
                         :class => "bg-gray-900 text-gray-100 px-5 py-3 font-semibold rounded hover:bg-gray-800" %> 
+                     <%else%>
+                        <%= link_to "Pruebe ahora! 🚀", 
+                                         new_session_path, 
+                        :class => "bg-gray-900 text-gray-100 px-5 py-3 font-semibold rounded hover:bg-gray-800" %> 
+                    <%end%>
                    </a>
                 </div>
             </div>

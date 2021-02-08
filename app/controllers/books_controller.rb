@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  require 'zip'
   before_action :find_book, only: %i[show edit update destroy]
   # index para Book
 
@@ -15,7 +16,7 @@ class BooksController < ApplicationController
     @book = Book.new(book_params)
     @book.user = User.find(current_user.id)
     if @book.save
-      redirect_to([:user, :books], notice: 'Book was successfully created')
+      redirect_to(%i[user books], notice: 'Book was successfully created')
     else
       render :new
     end
@@ -30,7 +31,7 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      redirect_to([:user, :books], notice: 'Book was successfully updated')
+      redirect_to(%i[user books], notice: 'Book was successfully updated')
     else
       render :edit
     end
@@ -39,20 +40,33 @@ class BooksController < ApplicationController
   # accion para el borrado de un Book
   def destroy
     @book.destroy
-    redirect_to([:user, :books], notice: 'Book was successfully deleted')
+    redirect_to(%i[user books], notice: 'Book was successfully deleted')
   end
 
   def export
-    byebug
     book_id = params.require(:book_id)
-    Note.where(book_id:book_id) do |note|
-      file_data = note.body
-      file_data = CommonMarker.render_html(file_data,:DEFAULT)
-      new_exported_file = "#{note.title}.html"
-      p file_data
+    book = Book.find(book_id)
+    filename = "#{book.title}.zip"
+    temp_file = Tempfile.new(filename)
+    begin
+      Zip::OutputStream.open(temp_file) { |zos| }
+      Zip::File.open(temp_file.path, Zip::File::CREATE) do |zipfile|
+        Book.find(book_id).notes.each do |note|
+          data = CommonMarker.render_html(note.body, :DEFAULT)
+          file = Tempfile.new("#{note.title}.html")
+          file.write(data)
+          file.close
+          zipfile.add("#{note.title}.html", file)
+        end
+      end
+      zip_data = File.read(temp_file.path)
+      send_data(zip_data, type: 'application/zip', filename: filename)
+    ensure # important steps below
+      temp_file.close
+      temp_file.unlink
     end
-    redirect_to([:user, :books], notice: 'Book was successfully exported')
   end
+
   private
 
   def book_params

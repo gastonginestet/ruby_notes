@@ -34,3 +34,4 @@ $ bundle install
  [Factory-Bot](https://github.com/thoughtbot/factory_bot_rails) , 
 [Faker](https://github.com/faker-ruby/faker) , 
 [Shoulda-matchers](https://github.com/thoughtbot/shoulda-matchers) . 
+* Se agregó [Rubyzip](https://github.com/rubyzip/rubyzip)  para exportar notas en un zip.

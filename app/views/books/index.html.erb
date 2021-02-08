@@ -29,8 +29,11 @@
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <% if book == @books.first %>
                   <%= link_to "Editar", edit_user_book_path(current_user,book), :class  => "text-indigo-600 hover:text-indigo-900" %>
+                  <%= link_to "Exportar",  user_book_export_path(current_user.id, book), :class  => "text-indigo-600 hover:text-indigo-900" , data: { confirm: "Desea exportar este cuaderno?."}   %>
+
                 <% else %>
                   <%= link_to "Editar", edit_user_book_path(current_user,book), :class  => "text-indigo-600 hover:text-indigo-900" %>
+                  <%= link_to "Exportar",  user_book_export_path(current_user.id, book), :class  => "text-indigo-600 hover:text-indigo-900" , data: { confirm: "Desea exportar este cuaderno?."}   %>
                   <%= link_to "Eliminar",[current_user ,book], method: :delete, data: { confirm: "Desea eliminar este cuaderno? Mira que se va a borrar todo su contenido."} , :class => "text-indigo-600 hover:text-indigo-900" %>
                 <% end %>
               </td>

@@ -56,3 +56,5 @@ group :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers', '4.0.0.rc1'
 end
+
+gem 'rubyzip', '>= 1.0.0' # will load new rubyzip version

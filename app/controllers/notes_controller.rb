@@ -34,6 +34,7 @@ class NotesController < ApplicationController
   def export
     @note.body = CommonMarker.render_html(@note.body, :DEFAULT)
   end
+
   # acciones para la edicion de un Note
 
   def update

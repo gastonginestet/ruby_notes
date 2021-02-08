@@ -3,6 +3,7 @@
   <!-- Logo text or image -->
   <div width="65.36px" height="16.78px" class="flex items-center justify-between mb-4 md:mb-0">
         <%= link_to image_tag("favicon.png", class: "h-16 w-auto"), pages_path %> 
+        <p class= "border-t block no-underline py-2 text-sm text-grey-darkest font-medium text-gray-500 tracking-wider hover:text-black md:border-none md:p-0"><%= current_user.username %></p>
   </div>
   <!-- END Logo text or image -->
   <!-- Global navigation -->
@@ -10,8 +11,10 @@
     <ul class="list-reset md:flex md:items-center">
       <li class="md:ml-4 rounded-full py-3 px-6">
         <a class="border-t block no-underline hover:underline py-2 text-sm text-grey-darkest font-medium text-gray-500 uppercase tracking-wider hover:text-black md:border-none md:p-0" href="#">
-            Mis notas
-        </a>
+        <%= link_to "Mis notas", 
+              user_book_notes_path(current_user,current_user.books.first), 
+        :class => "border-t block no-underline hover:underline py-2 text-sm text-grey-darkest font-medium text-gray-500 uppercase tracking-wider hover:text-black md:border-none md:p-0" 
+        %> 
       </li>
       <li class="md:ml-4 rounded-full py-3 px-6">
         <%= link_to "Mis cuadernos", 

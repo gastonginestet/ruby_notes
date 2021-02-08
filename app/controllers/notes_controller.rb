@@ -15,7 +15,7 @@ class NotesController < ApplicationController
   def create
     @note = Note.new(note_params)
     book_id = params.require(:book_id)
-    @note.user = User.find(current_user.id)
+    @note.user_id = User.find(current_user.id)
     @note.book = Book.find(book_id)
     if @note.save
       redirect_to(%i[user book notes], notice: 'Note was successfully created')

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
           get :export
         end
       end
+      get :export
     end
   end
   # Pages

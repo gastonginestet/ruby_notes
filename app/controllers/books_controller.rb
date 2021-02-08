@@ -42,6 +42,17 @@ class BooksController < ApplicationController
     redirect_to([:user, :books], notice: 'Book was successfully deleted')
   end
 
+  def export
+    byebug
+    book_id = params.require(:book_id)
+    Note.where(book_id:book_id) do |note|
+      file_data = note.body
+      file_data = CommonMarker.render_html(file_data,:DEFAULT)
+      new_exported_file = "#{note.title}.html"
+      p file_data
+    end
+    redirect_to([:user, :books], notice: 'Book was successfully exported')
+  end
   private
 
   def book_params
